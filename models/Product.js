@@ -16,15 +16,16 @@ Product.init(
       primaryKey: true, 
       autoIncrement: true
     },
-    productName: {
-      type: DataTypes.STRING(30),
+    product_name: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     price: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false,
       validate: {
-        is: ^[0-9]*\.[0-9]{2}$ // Regex to match up to two decimal points. From CodePal
+        //is: /^[0-9]*\.[0-9]{2}$/ // Regex to match up to two decimal points. From CodePal. I added the / for literals
+        isDecimal: true
       }
     },
     stock: {
@@ -32,10 +33,10 @@ Product.init(
       allowNull: false,
       defaultValue: 10,
       validate: {
-        is.Int: true 
+        isInt: true 
       }
     },
-    categoryId: {
+    category_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'category',
