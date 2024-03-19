@@ -16,8 +16,20 @@ Category.hasMany(Product, {
 });
 
 // Products belongToMany Tags (through ProductTag)
+Product.belongsToMany(Tag, {
+  through: {
+    model: ProductTag, 
+    unique: false // By default this create a unique key on through model. To prevent, `unique: false`
+  }
+}); 
 
 // Tags belongToMany Products (through ProductTag)
+Tag.belongsToMany(Product, {
+  through: {
+    model: ProductTag, 
+    unique: false 
+  }
+}); 
 
 module.exports = {
   Product,
