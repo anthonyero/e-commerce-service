@@ -41,8 +41,21 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
+  try {
+    const categoryUpdateData = await Category.update({
+      category_name: req.body.category_name
+    }, 
+    {
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(201).json(categoryUpdateData); // Returns {[1]} for success, {[0]} if the request resulted in no change. Ex. an `id` that is not in the database was submitted
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 router.delete('/:id', (req, res) => {
