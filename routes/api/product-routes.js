@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findAll({
-    include: [ { model: Category }, { model: Tag }]
+    include: [ { model: Category }, { model: Tag }] // Remember to include "model:" before the model name
     })
     res.status(200).json(productData);
   } catch (err) {
@@ -18,9 +18,17 @@ router.get('/', async (req, res) => {
 });
 
 // get one product
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+  try {
+    const productData = await Product.findByPk(req.params.id, { // Originally used `where` in the query but findByPk takes in the number as a first parameter
+      include: [{ model: Category }, { model: Tag}]
+    });
+    res.status(200).json(productData);
+  } catch(err) {
+    res.status(400).json(err);
+  };
 });
 
 // create new product
